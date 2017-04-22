@@ -7,16 +7,26 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { DataService } from './services/data.service';
 
-
+import { AgmCoreModule } from 'angular2-google-maps/core';
+import { MapComponent } from './map/map.component';
+import { MapTestComponent } from './map-test/map-test.component';
+import { DirectionsMapDirective } from './map/directions-map.directive';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    AboutComponent
+    AboutComponent,
+    MapComponent,
+    MapTestComponent,
+    DirectionsMapDirective
   ],
   imports: [
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyA5E4pMg2NLB5dtfGMcsJHpLwYLU5hnfOk',
+      libraries: ["places"]
+    })
   ],
   providers: [
     DataService

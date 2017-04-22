@@ -1,0 +1,31 @@
+
+<div class="container" onload="locate()">
+  <!--<h1>Angular 2 Google Map Direction Display</h1>-->
+  <div class="form-group">
+    <input placeholder="Enter source location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #pickupInput [formControl]="destinationInput">
+    <input placeholder="Enter destination" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #pickupOutput [formControl]="destinationOutput" >
+  </div>
+  <sebm-google-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" [styles]="mapCustomStyles">
+    <!--<sebm-google-map-marker [latitude]="latitude" [longitude]="longitude" [iconUrl]="iconurl">-->
+        <!--<sebm-google-map-info-window>-->
+            <!--<strong>InfoWindow content</strong>-->
+        <!--</sebm-google-map-info-window>-->
+    <!--</sebm-google-map-marker>-->
+    <sebm-google-map-directions [origin]="origin" [destination]="destination"></sebm-google-map-directions>
+
+    <sebm-google-map-marker [latitude]="neighbours[0].latitude" [longitude]="neighbours[0].longitude"></sebm-google-map-marker>
+    <sebm-google-map-marker [latitude]="neighbours[1].latitude" [longitude]="neighbours[1].longitude"></sebm-google-map-marker>
+    <sebm-google-map-marker [latitude]="neighbours[2].latitude" [longitude]="neighbours[2].longitude" ></sebm-google-map-marker>
+
+    <!--<sebm-google-map-directions [origin]="originn" [destination]="destinationn"></sebm-google-map-directions>-->
+
+  </sebm-google-map>
+</div>
+
+
+<!--<sebm-google-map [latitude]="lat" [longitude]="lng">-->
+  <!--&lt;!&ndash;<sebm-google-map-marker [zoom]="zoom" [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>&ndash;&gt;-->
+  <!--<sebm-google-map-directions [origin]="origin" [destination]="destination"></sebm-google-map-directions>-->
+
+<!--</sebm-google-map>-->
+
