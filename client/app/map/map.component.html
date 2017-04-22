@@ -5,11 +5,12 @@
     <input placeholder="Enter source location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #pickupInput [formControl]="destinationInput">
     <input placeholder="Enter destination" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #pickupOutput [formControl]="destinationOutput" >
   </div>
+  <button class="btn btn-default" (click)="addRoute()">Add Route</button>
   <sebm-google-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" [styles]="mapCustomStyles">
     <!--<sebm-google-map-marker [latitude]="latitude" [longitude]="longitude" [iconUrl]="iconurl">-->
-        <!--<sebm-google-map-info-window>-->
-            <!--<strong>InfoWindow content</strong>-->
-        <!--</sebm-google-map-info-window>-->
+    <!--<sebm-google-map-info-window>-->
+    <!--<strong>InfoWindow content</strong>-->
+    <!--</sebm-google-map-info-window>-->
     <!--</sebm-google-map-marker>-->
     <sebm-google-map-directions [origin]="origin" [destination]="destination"></sebm-google-map-directions>
 
@@ -20,12 +21,15 @@
     <!--<sebm-google-map-directions [origin]="originn" [destination]="destinationn"></sebm-google-map-directions>-->
 
   </sebm-google-map>
+  <div class="list-group" *ngFor="let x of routes; let i = index">
+    <button class="list-group-item list-group-item-action" (click)="tempClicked(i)">From {{ x.origin.formatted_address }} to {{ x.destination.formatted_address }} </button>
+  </div>
 </div>
 
 
 <!--<sebm-google-map [latitude]="lat" [longitude]="lng">-->
-  <!--&lt;!&ndash;<sebm-google-map-marker [zoom]="zoom" [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>&ndash;&gt;-->
-  <!--<sebm-google-map-directions [origin]="origin" [destination]="destination"></sebm-google-map-directions>-->
+<!--&lt;!&ndash;<sebm-google-map-marker [zoom]="zoom" [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>&ndash;&gt;-->
+<!--<sebm-google-map-directions [origin]="origin" [destination]="destination"></sebm-google-map-directions>-->
 
 <!--</sebm-google-map>-->
 

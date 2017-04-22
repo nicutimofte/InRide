@@ -26,6 +26,11 @@ export class MapComponent implements OnInit {
   public estimatedTime: any;
   public estimatedDistance: any;
 
+  public temp = ["1","2","3","4","5"];
+  public routes = [];
+  public start;
+  public end;
+
   @ViewChild("pickupInput")
   public pickupInputElementRef: ElementRef;
 
@@ -44,11 +49,11 @@ export class MapComponent implements OnInit {
   public neighbours = neighbours;
 
   constructor(
-      private mapsAPILoader: MapsAPILoader,
-      private ngZone: NgZone,
-      private gmapsApi: GoogleMapsAPIWrapper,
-      private _elementRef : ElementRef
-  ) {
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone,
+    private gmapsApi: GoogleMapsAPIWrapper,
+    private _elementRef : ElementRef
+    ) {
   }
 
   ngOnInit() {
@@ -83,6 +88,29 @@ export class MapComponent implements OnInit {
     });
   }
 
+  private tempClicked(i)
+  {
+    this.vc.origin = { longitude: this.routes[i].origin.geometry.location.lng(), latitude: this.routes[i].origin.geometry.location.lat() };
+    this.vc.originPlaceId = this.routes[i].origin.place_id;
+
+    this.vc.destination = { longitude: this.routes[i].destination.geometry.location.lng(), latitude: this.routes[i].destination.geometry.location.lat() };
+    this.vc.destinationPlaceId = this.routes[i].destination.place_id;
+
+    if(this.vc.directionsDisplay === undefined)
+    { 
+      this.mapsAPILoader.load().then(() => {
+        this.vc.directionsDisplay = new google.maps.DirectionsRenderer;
+      });
+    }
+    this.vc.updateDirections();
+  }
+
+  private addRoute()
+  {
+    var route = { "origin" : this.start, "destination" : this.end };
+    this.routes.push(route);
+  }
+
   private setupPlaceChangedListener(autocomplete: any, mode: any ) {
     autocomplete.addListener("place_changed", () => {
       this.ngZone.run(() => {
@@ -96,20 +124,22 @@ export class MapComponent implements OnInit {
         if (mode === 'ORG') {
           this.vc.origin = { longitude: place.geometry.location.lng(), latitude: place.geometry.location.lat() };
           this.vc.originPlaceId = place.place_id;
+          this.start = place;
         } else {
           this.vc.destination = { longitude: place.geometry.location.lng(), latitude: place.geometry.location.lat() }; // its a example aleatory position
           this.vc.destinationPlaceId = place.place_id;
+          this.end = place;
         }
 
         if(this.vc.directionsDisplay === undefined){ this.mapsAPILoader.load().then(() => {
           this.vc.directionsDisplay = new google.maps.DirectionsRenderer;
         });
-        }
+      }
 
-        //Update the directions
-        this.vc.updateDirections();
-        this.zoom = 12;
-      });
+      //Update the directions
+      this.vc.updateDirections();
+      this.zoom = 12;
+    });
 
     });
 
