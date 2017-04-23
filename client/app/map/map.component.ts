@@ -26,10 +26,10 @@ export class MapComponent implements OnInit {
   public estimatedTime: any;
   public estimatedDistance: any;
 
-  public temp = ["1","2","3","4","5"];
   public routes = [];
-  public start;
-  public end;
+  public start: any;
+  public end: any;
+  public localIdx = 0;
 
   @ViewChild("pickupInput")
   public pickupInputElementRef: ElementRef;
@@ -57,6 +57,18 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
+    
+    // HOW TO:
+    // 
+    // AT FIRST RUN, UNCOMMENT LOCALSTORAGE.CLEAR() AND ADD SOME ROUTES
+    // UNCOMMENT IT, SAVE THE FILE, AND LOCALSTORAGE SHOUL WORK
+    // AFTERWARDS KEEP IT UNCOMMENTED
+    // ALL LOCAL STORAGE IS WIPED AT FIRST
+    
+    // localStorage.clear();
+    this.loadFromLocal();
+    this.setLocalIdxOnLoad();
+
     //set current position
     this.setCurrentPosition();
     //set google maps defaults
@@ -88,12 +100,41 @@ export class MapComponent implements OnInit {
     });
   }
 
+  private setLocalIdxOnLoad()
+  {
+    if (localStorage.getItem("localIdx") === null)
+    {
+      localStorage.setItem("localIdx",""+this.localIdx);
+    }
+    else
+    {
+      this.localIdx = parseInt(localStorage.getItem("localIdx"));
+    }
+  }
+
+  private addToLocal(route)
+  {
+    this.localIdx = this.localIdx + 1;
+    localStorage.setItem(""+this.localIdx , JSON.stringify(route));
+    localStorage.setItem("localIdx",""+this.localIdx);
+  }
+
+  private loadFromLocal()
+  {
+    for (var i = 0; i < localStorage.length-1; i++)
+    {
+      var key = localStorage.key(i);
+      this.routes.push(JSON.parse(localStorage.getItem(key)));
+    }
+  }
+
   private tempClicked(i)
   {
-    this.vc.origin = { longitude: this.routes[i].origin.geometry.location.lng(), latitude: this.routes[i].origin.geometry.location.lat() };
+    console.log(this.routes);
+    this.vc.origin = { longitude: this.routes[i].origin.geometry.location.lng, latitude: this.routes[i].origin.geometry.location.lat };
     this.vc.originPlaceId = this.routes[i].origin.place_id;
 
-    this.vc.destination = { longitude: this.routes[i].destination.geometry.location.lng(), latitude: this.routes[i].destination.geometry.location.lat() };
+    this.vc.destination = { longitude: this.routes[i].destination.geometry.location.lng, latitude: this.routes[i].destination.geometry.location.lat };
     this.vc.destinationPlaceId = this.routes[i].destination.place_id;
 
     if(this.vc.directionsDisplay === undefined)
@@ -109,6 +150,7 @@ export class MapComponent implements OnInit {
   {
     var route = { "origin" : this.start, "destination" : this.end };
     this.routes.push(route);
+    this.addToLocal(route);
   }
 
   private setupPlaceChangedListener(autocomplete: any, mode: any ) {
