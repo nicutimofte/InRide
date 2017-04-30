@@ -11,6 +11,20 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
 import { MapComponent } from './map/map.component';
 import { MapTestComponent } from './map-test/map-test.component';
 import { DirectionsMapDirective } from './map/directions-map.directive';
+import {AngularFireModule, AuthProviders, AuthMethods} from "angularfire2";
+import {AF} from "./providers/af";
+import { LoginPageComponent } from './login-page/login-page.component';
+import {UserService} from "./services/user.service";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBszStTPolsR_W_fxPBKhph9Jds_oP9FKg",
+  authDomain: "ridein-1492801980487.firebaseapp.com",
+  databaseURL: "https://ridein-1492801980487.firebaseio.com",
+  projectId: "ridein-1492801980487",
+  storageBucket: "ridein-1492801980487.appspot.com",
+  messagingSenderId: "470057804554"
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +32,9 @@ import { DirectionsMapDirective } from './map/directions-map.directive';
     AboutComponent,
     MapComponent,
     MapTestComponent,
-    DirectionsMapDirective
+    DirectionsMapDirective,
+    LoginPageComponent,
+
   ],
   imports: [
     AppRoutingModule,
@@ -26,10 +42,16 @@ import { DirectionsMapDirective } from './map/directions-map.directive';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyA5E4pMg2NLB5dtfGMcsJHpLwYLU5hnfOk',
       libraries: ["places"]
+    }),
+    AngularFireModule.initializeApp(firebaseConfig,{
+      provider: AuthProviders.Google,
+      method: AuthMethods.Popup
     })
   ],
   providers: [
-    DataService
+    DataService,
+    AF,
+    UserService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

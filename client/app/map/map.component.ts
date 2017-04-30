@@ -4,6 +4,7 @@ import {FormControl} from "@angular/forms";
 import {DirectionsMapDirective} from "./directions-map.directive";
 import {} from '@types/googlemaps';
 import {neighbours} from './mockData/neighbours.mock';
+import {AF} from "../providers/af";
 
 declare const google:any;
 declare const jQuery:any;
@@ -52,12 +53,15 @@ export class MapComponent implements OnInit {
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private gmapsApi: GoogleMapsAPIWrapper,
-    private _elementRef : ElementRef
+    private _elementRef : ElementRef,
+    public afService: AF
     ) {
   }
 
   ngOnInit() {
-    
+   this.afService.af.auth.subscribe((auth)=>{
+     console.log("as",auth);
+   });
     // HOW TO:
     // 
     // AT FIRST RUN, UNCOMMENT LOCALSTORAGE.CLEAR() AND ADD SOME ROUTES
@@ -65,7 +69,7 @@ export class MapComponent implements OnInit {
     // AFTERWARDS KEEP IT UNCOMMENTED
     // ALL LOCAL STORAGE IS WIPED AT FIRST
     
-    // localStorage.clear();
+    localStorage.clear();
     this.loadFromLocal();
     this.setLocalIdxOnLoad();
 
@@ -100,6 +104,7 @@ export class MapComponent implements OnInit {
     });
   }
 
+
   private setLocalIdxOnLoad()
   {
     if (localStorage.getItem("localIdx") === null)
@@ -128,7 +133,7 @@ export class MapComponent implements OnInit {
     }
   }
 
-  private tempClicked(i)
+  tempClicked(i)
   {
     console.log(this.routes);
     this.vc.origin = { longitude: this.routes[i].origin.geometry.location.lng, latitude: this.routes[i].origin.geometry.location.lat };
@@ -146,7 +151,7 @@ export class MapComponent implements OnInit {
     this.vc.updateDirections();
   }
 
-  private addRoute()
+  addRoute()
   {
     var route = { "origin" : this.start, "destination" : this.end };
     this.routes.push(route);

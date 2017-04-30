@@ -1,16 +1,14 @@
-<div class="container">
-
-  <nav class="navbar navbar-dark bg-primary">
+ <nav *ngIf="isLoggedIn" class="navbar navbar-dark bg-primary">
     <div class="nav navbar-nav">
       <a routerLink="/" class="nav-item nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
         <i class="fa fa-home"></i> Home
       </a>
+      <a class="nav-item nav-link"  (click)="logout()">Logout</a>
       <!--<a routerLink="/about" class="nav-item nav-link" routerLinkActive="active">-->
-        <!--<i class="fa fa-info-circle"></i> About-->
+      <!--<i class="fa fa-info-circle"></i> About-->
       <!--</a>-->
     </div>
-  </nav>
-
+</nav>
+<div class="app-content">
   <router-outlet></router-outlet>
-
 </div>
