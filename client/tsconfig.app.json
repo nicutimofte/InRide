@@ -8,6 +8,9 @@
   },
   "exclude": [
     "test.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "typings/browser.d.ts",
+    "typings/browser",
+    "node_modules"
   ]
 }

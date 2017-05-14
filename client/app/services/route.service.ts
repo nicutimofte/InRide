@@ -1,3 +1,6 @@
+/**
+ * Created by Nicu on 4/30/17.
+ */
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 
@@ -7,15 +10,20 @@ import {AngularFire} from "angularfire2";
 import * as firebase from 'firebase';
 
 @Injectable()
-export class UserService {
+export class RouteService {
 
-    readUser(){
+    readCurrentUser(){
         var userId = firebase.auth().currentUser.uid;
         return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-            var username = snapshot.val().userName;
-            console.log(username)
+            return {
+                userName: snapshot.val().userName,
+                email: snapshot.val().email,
+                userPicture: snapshot.val().userPicture
+            }
         });
     }
+
+
 
     saveUser() {
         // A post entry.
