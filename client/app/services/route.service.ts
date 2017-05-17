@@ -6,7 +6,6 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import {AngularFire} from "angularfire2";
 import * as firebase from 'firebase';
 
 @Injectable()

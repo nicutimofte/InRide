@@ -1,5 +1,4 @@
 import {Component, ComponentFactoryResolver, ViewContainerRef} from '@angular/core';
-import {AngularFire, AuthProviders} from "angularfire2";
 import {AF} from "./providers/af";
 import {Router} from "@angular/router";
 import {UserService} from "./services/user.service";
@@ -16,9 +15,9 @@ export class AppComponent {
     // This asynchronously checks if our user is logged in and will automatically
     // redirect them to the Login page when the status changes.
 
-    this.afService.af.auth.subscribe(
-        (auth) => {
-          if(auth == null) {
+    this.afService.af.auth.onAuthStateChanged(
+        (user) => {
+          if(user == null) {
             console.log("Not Logged in.");
             this.router.navigate(['/login']);
             this.isLoggedIn = false;
@@ -30,7 +29,7 @@ export class AppComponent {
             console.log("Successfully Logged in.");
             this.isLoggedIn = true;
             this.router.navigate(['/']);
-            console.log(auth);
+            console.log(user);
           }
         }
     );

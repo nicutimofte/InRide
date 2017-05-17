@@ -59,8 +59,8 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-   this.afService.af.auth.subscribe((auth)=>{
-     console.log("as",auth);
+   this.afService.af.auth.onAuthStateChanged((user)=>{
+     console.log("as",user);
    });
     // HOW TO:
     // 
