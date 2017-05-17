@@ -46,7 +46,7 @@ const firebaseConfig = {
       libraries: ["places"]
     }),
      [
-    AngularFireModule.initializeApp(firebaseConfig, 'app-root'),
+    AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule
 ],
