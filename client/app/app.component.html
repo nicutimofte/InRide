@@ -1,9 +1,18 @@
  <nav *ngIf="isLoggedIn" class="navbar navbar-dark bg-primary">
     <div class="nav navbar-nav">
       <a routerLink="/" class="nav-item nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
-        <i class="fa fa-home"></i> Home
+        <i class="fa fa-home"></i> Welcome
       </a>
-      <a class="nav-item nav-link"  (click)="logout()">Logout</a>
+        <a routerLink="/route/find" class="nav-item nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            <i class="fa fa-map-marker" aria-hidden="true"></i> Find Ride
+        </a>
+        <a routerLink="/route/post" class="nav-item nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            <i class="fa fa-location-arrow" aria-hidden="true"></i> Offer Ride
+        </a>
+
+        <a class="nav-item nav-link"  (click)="logout()">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>Logout
+        </a>
       <!--<a routerLink="/about" class="nav-item nav-link" routerLinkActive="active">-->
       <!--<i class="fa fa-info-circle"></i> About-->
       <!--</a>-->

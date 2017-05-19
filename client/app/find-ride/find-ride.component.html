@@ -1,0 +1,23 @@
+<div class="container" onload="locate()">
+  <h1>HERE</h1>
+  <sebm-google-map
+          [latitude]="latitude"
+          [longitude]="longitude"
+          [scrollwheel]="false"
+          [zoom]="zoom"
+          [styles]="mapCustomStyles">
+    <sebm-google-map-directions
+            [origin]="origin"
+            [destination]="destination">
+    </sebm-google-map-directions>
+  </sebm-google-map>
+
+  <div class="list-group" *ngFor="let x of routes; let i = index">
+    <button
+            class="list-group-item list-group-item-action"
+            (click)="showRide(i)">
+      From {{ x.origin.formatted_address }} to {{ x.destination.formatted_address }}
+    </button>
+  </div>
+
+</div>

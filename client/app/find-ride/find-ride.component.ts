@@ -1,24 +1,20 @@
 import {Component, OnInit, ViewChild, ElementRef, NgZone} from '@angular/core';
-import {GoogleMapsAPIWrapper, MapsAPILoader} from "angular2-google-maps/core";
+import {DirectionsMapDirective} from "../directions-map.directive";
 import {FormControl} from "@angular/forms";
-
-import {} from '@types/googlemaps';
-import {neighbours} from './mockData/neighbours.mock';
+import {MapsAPILoader, GoogleMapsAPIWrapper} from "angular2-google-maps/core";
 import {AF} from "../providers/af";
 import {RouteService} from "../services/route.service";
-import {DirectionsMapDirective} from "../directions-map.directive";
-
-declare const google:any;
-declare const jQuery:any;
+import {UserService} from "../services/user.service";
+import {async} from "rxjs/scheduler/async";
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss'],
+  selector: 'app-find-ride',
+  templateUrl: './find-ride.component.html',
+  styleUrls: ['./find-ride.component.scss'],
   providers : [ GoogleMapsAPIWrapper ]
 })
 
-export class MapComponent implements OnInit {
+export class FindRideComponent implements OnInit {
   private destinationToSave:any;
   private originToSave:any;
   public latitude: number;
@@ -51,29 +47,27 @@ export class MapComponent implements OnInit {
   public origin :any ; //aleatory position
   public destination : any; // aleatory position
 
-  public neighbours = neighbours;
-
   constructor(
-    private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone,
-    private gmapsApi: GoogleMapsAPIWrapper,
-    private _elementRef : ElementRef,
-    public afService: AF,
-    public routeService: RouteService
-    ) {
+      private mapsAPILoader: MapsAPILoader,
+      private ngZone: NgZone,
+      private gmapsApi: GoogleMapsAPIWrapper,
+      private _elementRef : ElementRef,
+      public afService: AF,
+      public routeService: RouteService
+  ) {
   }
 
   ngOnInit() {
-   this.afService.af.auth.onAuthStateChanged((user)=>{
-     console.log("as",user);
-   });
+    this.afService.af.auth.onAuthStateChanged((user)=>{
+      console.log("as",user);
+    });
     // HOW TO:
-    // 
+    //
     // AT FIRST RUN, UNCOMMENT LOCALSTORAGE.CLEAR() AND ADD SOME ROUTES
     // UNCOMMENT IT, SAVE THE FILE, AND LOCALSTORAGE SHOUL WORK
     // AFTERWARDS KEEP IT UNCOMMENTED
     // ALL LOCAL STORAGE IS WIPED AT FIRST
-    
+
     localStorage.clear();
     this.loadFromLocal();
     this.setLocalIdxOnLoad();
@@ -96,16 +90,8 @@ export class MapComponent implements OnInit {
 
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
-      let autocompleteInput = new google.maps.places.Autocomplete(this.pickupInputElementRef.nativeElement, {
-        types: ["address"]
-      });
-
-      let autocompleteOutput = new google.maps.places.Autocomplete(this.pickupOutputElementRef.nativeElement, {
-        types: ["address"]
-      });
-
-      this.setupPlaceChangedListener(autocompleteInput, 'ORG');
-      this.setupPlaceChangedListener(autocompleteOutput, 'DES');
+      this.setupPlaceChangedListener('ORG');
+      this.setupPlaceChangedListener('DES');
     });
   }
 
@@ -148,7 +134,7 @@ export class MapComponent implements OnInit {
     this.vc.destinationPlaceId = this.routes[i].destination.place_id;
 
     if(this.vc.directionsDisplay === undefined)
-    { 
+    {
       this.mapsAPILoader.load().then(() => {
         this.vc.directionsDisplay = new google.maps.DirectionsRenderer;
       });
@@ -171,57 +157,38 @@ export class MapComponent implements OnInit {
     this.routeService.saveRoute(this.originToSave,this.destinationToSave);
   }
 
-  private setupPlaceChangedListener(autocomplete: any, mode: any ) {
-    autocomplete.addListener("place_changed", () => {
-      this.ngZone.run(() => {
-        //get the place result
-        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-        console.log('place:',place);
-        //verify result
-        if (place.geometry === undefined) {
-          return;
-        }
-        if (mode === 'ORG') {
-          this.vc.origin = { longitude: place.geometry.location.lng(), latitude: place.geometry.location.lat() };
-          this.vc.originPlaceId = place.place_id;
-          this.start = place;
-          this.originToSave = {
-            longitude: place.geometry.location.lng(),
-            latitude:  place.geometry.location.lat(),
-            placeId : place.place_id
-          };
-        } else {
-          this.vc.destination = { longitude: place.geometry.location.lng(), latitude: place.geometry.location.lat() }; // its a example aleatory position
-          this.vc.destinationPlaceId = place.place_id;
-          this.end = place;
-          this.destinationToSave = {
-            longitude: place.geometry.location.lng(),
-            latitude:  place.geometry.location.lat(),
-            placeId : place.place_id
-          };
-        }
+  private async setupPlaceChangedListener( mode: any ) {
+    if (mode === 'ORG') {
+      var place ;
+      await this.routeService.readRoutes().then(r=> place = r.origin);
+      console.log(place);
+      this.vc.origin = { longitude: place.longitude, latitude: place.latitude };
+      this.vc.originPlaceId = place.place_id;
+      this.start = place;
+      this.originToSave = place;
+    } else {
+      var place ;
+      await this.routeService.readRoutes().then(r=> place = r.destination);
+      console.log(place);
+      this.vc.destination = { longitude: place.longitude, latitude: place.latitude };
+      this.vc.destinationPlaceId = place.place_id;
+      this.end = place;
+      this.destinationToSave = place;
+    }
 
-        if(this.vc.directionsDisplay === undefined){ this.mapsAPILoader.load().then(() => {
-          this.vc.directionsDisplay = new google.maps.DirectionsRenderer;
-        });
-      }
-
-      //Update the directions
-      this.vc.updateDirections();
-      this.zoom = 12;
+    if(this.vc.directionsDisplay === undefined){ this.mapsAPILoader.load().then(() => {
+      this.vc.directionsDisplay = new google.maps.DirectionsRenderer;
     });
+    }
 
-    });
-
+    //Update the directions
+    this.vc.updateDirections();
+    this.zoom = 12;
   }
 
   getDistanceAndDuration(){
     this.estimatedTime = this.vc.estimatedTime;
     this.estimatedDistance = this.vc.estimatedDistance;
-  }
-
-  scrollToBottom(): void {
-    jQuery('html, body').animate({ scrollTop: jQuery(document).height() }, 3000);
   }
   private setPickUpLocation( place:any ) {
     //verify result
