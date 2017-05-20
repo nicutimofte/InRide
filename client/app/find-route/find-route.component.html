@@ -1,0 +1,17 @@
+<div class="container" onload="locate()">
+  <sebm-google-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" [styles]="mapCustomStyles">
+    <sebm-google-map-directions [origin]="origin" [destination]="destination"></sebm-google-map-directions>
+    <div class="list-group" *ngFor="let x of routes; let i = index">
+      <sebm-google-map-marker [latitude]="x.origin.latitude" [longitude]="x.origin.longitude"></sebm-google-map-marker>
+    </div>
+  </sebm-google-map>
+
+    <div class="list-group" *ngFor="let x of routes; let i = index">
+      <button
+              class="list-group-item list-group-item-action"
+              (click)="tempClicked(i)">
+        From {{ x.origin.formatted_address }} to {{ x.destination.formatted_address }}
+      </button>
+    </div>
+
+</div>

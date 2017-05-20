@@ -5,9 +5,9 @@ import { Directive,  Input, Output } from '@angular/core';
 declare var google: any;
 
 @Directive({
-    selector: 'sebm-google-map-directions'
+    selector: 'sebm-google-map-direction'
 })
-export class DirectionsMapDirective {
+export class DirectionMapDirective {
     @Input() origin:any ;
     @Input() destination:any;
     @Input() originPlaceId:any;

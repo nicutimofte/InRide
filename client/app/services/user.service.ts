@@ -15,6 +15,12 @@ export class UserService {
             console.log(username)
         });
     }
+    getUser(uid:number){
+        return firebase.database().ref('/users/' + uid).once('value').then(function(snapshot) {
+            var username = snapshot.val().userName;
+            console.log(username)
+        });
+    }
 
     saveUser() {
         // A post entry.

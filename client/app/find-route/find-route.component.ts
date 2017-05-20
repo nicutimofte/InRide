@@ -12,13 +12,13 @@ declare const google:any;
 declare const jQuery:any;
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss'],
+  selector: 'app-find-route',
+  templateUrl: './find-route.component.html',
+  styleUrls: ['./find-route.component.scss'],
   providers : [ GoogleMapsAPIWrapper ]
 })
 
-export class MapComponent implements OnInit {
+export class FindRouteComponent implements OnInit {
   private destinationToSave:any;
   private originToSave:any;
   public latitude: number;
@@ -88,29 +88,28 @@ export class MapComponent implements OnInit {
     this.zoom = 13;
     this.latitude = 46.7700713; //Cluj-Napoca
     this.longitude = 23.590370300000018;
-    //this.iconurl = '../image/map-icon.png';
-    //this.iconurl = '../image/map-icon.png';
-
-    // this.mapCustomStyles = this.getMapCusotmStyles();
-    //create search FormControl
-    this.destinationInput = new FormControl();
-    this.destinationOutput = new FormControl();
     //set current position
     this.setCurrentPosition();
 
+    this.loadRoutes();
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
-      let autocompleteInput = new google.maps.places.Autocomplete(this.pickupInputElementRef.nativeElement, {
-        types: ["address"]
-      });
 
-      let autocompleteOutput = new google.maps.places.Autocomplete(this.pickupOutputElementRef.nativeElement, {
-        types: ["address"]
-      });
-
-      this.setupPlaceChangedListener(autocompleteInput, 'ORG');
-      this.setupPlaceChangedListener(autocompleteOutput, 'DES');
+      this.setupPlaceChangedListener('ORG');
+      this.setupPlaceChangedListener('DES');
     });
+
+  }
+  private loadRoutes(){
+     this.routes = this.routeService.readRoutes();
+     console.log("ROUTE:",this.routes);
+      // let r = { "origin" : route["origin"], "destination" : route["destination"] };
+      // this.routes.push(route);
+      // this.addToLocal(route);
+      // console.log("ruta:",route);
+      // var p1 = {'lat': route["origin"].latitude,'lng': route["origin"].longitude  }
+      // var p2 = {'lat': route["destination"].latitude,'lng': route["destination"].longitude}
+      // console.log(this.calculateDistance(p1,p2) + " meters");
 
   }
 
@@ -169,10 +168,10 @@ export class MapComponent implements OnInit {
   tempClicked(i)
   {
     console.log(this.routes);
-    this.vc.origin = { longitude: this.routes[i].origin.geometry.location.lng, latitude: this.routes[i].origin.geometry.location.lat };
+    this.vc.origin = { longitude: this.routes[i].origin.longitude, latitude: this.routes[i].origin.latitude };
     this.vc.originPlaceId = this.routes[i].origin.place_id;
 
-    this.vc.destination = { longitude: this.routes[i].destination.geometry.location.lng, latitude: this.routes[i].destination.geometry.location.lat };
+    this.vc.destination = { longitude: this.routes[i].destination.longitude, latitude: this.routes[i].destination.latitude };
     this.vc.destinationPlaceId = this.routes[i].destination.place_id;
 
     if(this.vc.directionsDisplay === undefined)
@@ -186,55 +185,45 @@ export class MapComponent implements OnInit {
 
   addRoute()
   {
-    var p1 = {'lat': this.start.geometry.location.lat(),'lng': this.start.geometry.location.lng()}
-    var p2 = {'lat': this.end.geometry.location.lat(),'lng': this.end.geometry.location.lng()}
-    alert(this.calculateDistance(p1,p2) + " meters")
+    var p1 = {'lat': this.start.latitude,'lng': this.start.longitude}
+    var p2 = {'lat': this.end.latitude,'lng': this.end.longitude}
+    console.log(this.calculateDistance(p1,p2) + " meters");
 
 
     var route = { "origin" : this.start, "destination" : this.end };
     this.routes.push(route);
     this.addToLocal(route);
-
-    this.saveRoute();
+    console.log("ruta:",route);
+    //this.saveRoute();
   }
 
   private saveRoute(){
     console.log("ROUTE:",this.originToSave,this.destinationToSave);
-
     this.routeService.saveRoute(this.originToSave,this.destinationToSave);
   }
 
-  private setupPlaceChangedListener(autocomplete: any, mode: any ) {
-    autocomplete.addListener("place_changed", () => {
-      this.ngZone.run(() => {
-        //get the place result
-        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-        console.log('place:',place);
-        //verify result
-        if (place.geometry === undefined) {
-          return;
-        }
-        if (mode === 'ORG') {
-          this.vc.origin = { longitude: place.geometry.location.lng(), latitude: place.geometry.location.lat() };
-          this.vc.originPlaceId = place.place_id;
-          this.start = place;
-          this.originToSave = {
-            longitude: place.geometry.location.lng(),
-            latitude:  place.geometry.location.lat(),
-            place_id : place.place_id,
-            formatted_address: place.formatted_address
-          };
-        } else {
-          this.vc.destination = { longitude: place.geometry.location.lng(), latitude: place.geometry.location.lat() }; // its a example aleatory position
-          this.vc.destinationPlaceId = place.place_id;
-          this.end = place;
-          this.destinationToSave = {
-            longitude: place.geometry.location.lng(),
-            latitude:  place.geometry.location.lat(),
-            place_id : place.place_id,
-            formatted_address: place.formatted_address
-          };
-        }
+  private setupPlaceChangedListener(mode: any ) {
+
+        // if (mode === 'ORG') {
+        //   this.routeService.readRoutes().then(r=>{
+        //     var place = r.origin;
+        //     console.log(place);
+        //     this.vc.origin = { longitude: place.longitude, latitude: place.latitude };
+        //     this.vc.originPlaceId = place.place_id;
+        //     this.start = place;
+        //
+        //   });
+        //
+        // } else {
+        //   this.routeService.readRoutes().then(r=>{
+        //     let place = r.destination
+        //     console.log(place);
+        //     this.vc.destination = { longitude: place.longitude, latitude: place.latitude }; // its a example aleatory position
+        //     this.vc.destinationPlaceId = place.place_id;
+        //     this.end = place;
+        //   });
+        //
+        // }
 
         if(this.vc.directionsDisplay === undefined){ this.mapsAPILoader.load().then(() => {
           this.vc.directionsDisplay = new google.maps.DirectionsRenderer;
@@ -244,9 +233,7 @@ export class MapComponent implements OnInit {
       //Update the directions
       this.vc.updateDirections();
       this.zoom = 12;
-    });
 
-    });
 
   }
 
