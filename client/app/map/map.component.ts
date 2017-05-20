@@ -64,9 +64,13 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-   this.afService.af.auth.onAuthStateChanged((user)=>{
-     console.log("as",user);
-   });
+    this.afService.af.auth.onAuthStateChanged((user)=>{
+      console.log("as",user);
+    });
+
+
+
+
     // HOW TO:
     // 
     // AT FIRST RUN, UNCOMMENT LOCALSTORAGE.CLEAR() AND ADD SOME ROUTES
@@ -107,8 +111,32 @@ export class MapComponent implements OnInit {
       this.setupPlaceChangedListener(autocompleteInput, 'ORG');
       this.setupPlaceChangedListener(autocompleteOutput, 'DES');
     });
+
   }
 
+  private calculateDistance(coordDict1,coordDict2)
+  {
+    var temp1 = {'lat': 35, 'lng': 134}
+    var temp2 = {'lat': 36, 'lng': 135}
+
+    var rad = function(x) {
+      return x * Math.PI / 180;
+    };
+
+    var getDistance = function(p1, p2) {
+      var R = 6378137; // Earth’s mean radius in meter
+      var dLat = rad(p2['lat'] - p1['lat']);
+      var dLong = rad(p2['lng'] - p1['lng']);
+      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(rad(p1['lat'])) * Math.cos(rad(p2['lat'])) *
+      Math.sin(dLong / 2) * Math.sin(dLong / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var d = R * c;
+      return d; // returns the distance in meter
+    };
+
+    return getDistance(coordDict1,coordDict2)
+  }
 
   private setLocalIdxOnLoad()
   {
@@ -158,6 +186,11 @@ export class MapComponent implements OnInit {
 
   addRoute()
   {
+    var p1 = {'lat': this.start.geometry.location.lat(),'lng': this.start.geometry.location.lng()}
+    var p2 = {'lat': this.end.geometry.location.lat(),'lng': this.end.geometry.location.lng()}
+    alert(this.calculateDistance(p1,p2) + " meters")
+
+
     var route = { "origin" : this.start, "destination" : this.end };
     this.routes.push(route);
     this.addToLocal(route);
