@@ -4,3 +4,4 @@ declare module 'googlemaps';
 interface NodeModule {
   id: string;
 }
+declare var require: any;
