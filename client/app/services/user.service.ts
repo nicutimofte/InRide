@@ -12,7 +12,6 @@ export class UserService {
         var userId = firebase.auth().currentUser.uid;
          firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
             var user = snapshot.val();
-            console.log("CURRENT USER:",user);
             return {
                     uid: user.uid,
                     userName: user.userName,
@@ -24,7 +23,7 @@ export class UserService {
     getUser(uid:number){
         return firebase.database().ref('/users/' + uid).once('value').then(function(snapshot) {
             var user = snapshot.val();
-            console.log("get USER: ",user);
+
             return {
                     userName: user.userName,
                     userPicture: user.userPicture,

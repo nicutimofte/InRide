@@ -1,20 +1,35 @@
 <!--<app-map></app-map>-->
 <a name="top"></a>
 <div class="ridein-be-together-section mdl-typography--text-center">
-    <div class="logo-font ridein-slogan">Become A Better You.</div>
-    <div class="logo-font ridein-sub-slogan">The noblest pleasure is the joy of understanding.</div>
+    <div class="logo-font ridein-slogan">Drive less. Save more.</div>
+    <div class="logo-font ridein-sub-slogan">
+        Ride sharing saves money and reduces congestion on our roads and highways. It also gives you the opportunity to develop new friendships with co-workers or other commuters.
+    </div>
 </div>
+<div class="ridein-wear-section">
+    <div class="ridein-wear-band">
+        <div class="ridein-wear-band-text">
+            <div class="mdl-typography--display-2 mdl-typography--font-thin">Are you going somewhere?</div>
+            <p class="mdl-typography--headline mdl-typography--font-thin">
+                Where do you want to arrive?
+            </p>
+            <p>
+                <a routerLink="/route/find"
+                   routerLinkActive="active"
+                   [routerLinkActiveOptions]="{exact:true}"
+                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect ridein-link">
+                    Find a Ride
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
 <div class="ridein-customized-section">
     <div class="ridein-customized-section-text">
-        <div class="mdl-typography--font-light mdl-typography--display-1-color-contrast">Become A Part Of The ridein Community</div>
+        <div class="mdl-typography--font-light mdl-typography--display-1-color-contrast">Are you going somewhere with your car?</div>
         <p class="mdl-typography--font-light">
-            Join The RideIn Community To Get Access To Occasional Tips, Insights And Product Updates To Help You On Your Personal Journey.
-            <br>
-            <a routerLink="/route/find"
-               routerLinkActive="active"
-               [routerLinkActiveOptions]="{exact:true}"
-               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect ridein-link">
-                Find a Ride </a>
+            Take passengers and ride cheaper together.
             <br>
             <a routerLink="/route/post"
                routerLinkActive="active"
@@ -22,8 +37,30 @@
                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect ridein-link">
                 Post a Ride </a>
         </p>
+
     </div>
+    <div class="ridein-customized-section-image"></div>
 </div>
+<!--<div class="ridein-customized-section">-->
+    <!--<div class="ridein-customized-section-text">-->
+        <!--<div class="mdl-typography&#45;&#45;font-light mdl-typography&#45;&#45;display-1-color-contrast">Become A Part Of The ridein Community</div>-->
+        <!--<p class="mdl-typography&#45;&#45;font-light">-->
+            <!--Join The RideIn Community To Get Access To Occasional Tips, Insights And Product Updates To Help You On Your Personal Journey.-->
+            <!--<br>-->
+            <!--<a routerLink="/route/find"-->
+               <!--routerLinkActive="active"-->
+               <!--[routerLinkActiveOptions]="{exact:true}"-->
+               <!--class="mdl-button mdl-js-button mdl-button&#45;&#45;raised mdl-js-ripple-effect ridein-link">-->
+                <!--Find a Ride </a>-->
+            <!--<br>-->
+            <!--<a routerLink="/route/post"-->
+               <!--routerLinkActive="active"-->
+               <!--[routerLinkActiveOptions]="{exact:true}"-->
+               <!--class="mdl-button mdl-js-button mdl-button&#45;&#45;raised mdl-js-ripple-effect ridein-link">-->
+                <!--Post a Ride </a>-->
+        <!--</p>-->
+    <!--</div>-->
+<!--</div>-->
 
 <footer class="ridein-footer mdl-mega-footer">
     <div class="mdl-mega-footer--middle-section">

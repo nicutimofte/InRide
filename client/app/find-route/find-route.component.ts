@@ -73,9 +73,6 @@ export class FindRouteComponent implements OnInit {
       console.log("as",user);
     });
 
-
-
-
     // HOW TO:
     // 
     // AT FIRST RUN, UNCOMMENT LOCALSTORAGE.CLEAR() AND ADD SOME ROUTES
@@ -96,26 +93,31 @@ export class FindRouteComponent implements OnInit {
     //set current position
     this.setCurrentPosition();
 
-    this.loadRoutes();
-    //load Places Autocomplete
-    this.mapsAPILoader.load().then(() => {
-
-      this.setupPlaceChangedListener('ORG');
-      this.setupPlaceChangedListener('DES');
+    this.loadRoutes(()=>{
+      console.log("ROUTES:",this.routes);
+      this.routes.map((route)=>{
+        let p1 = {'lat': this.latitude,'lng': this.longitude}
+        let p2 = {'lat': route.origin.latitude , 'lng': route.origin.longitude}
+        let distance = this.calculateDistance(p1,p2);
+        console.log("DISTANCE;",distance.toFixed(2) + " meters")
+        route.distance = distance.toFixed(2);
+      });
     });
 
+    console.log('current place:',this.latitude,this.longitude)
+    // this.routes.forEach((route)=>{
+    //   let p1 = {'lat': this.latitude,'lng': this.longitude}
+    //   let p2 = {'lat': route.origin.latitude , 'lng': route.origin.longitude}
+    //   let distance = this.calculateDistance(p1,p2);
+    //   console.log("distance;",distance.toFixed(2) + " meters")
+    //   route.distance = distance.toFixed(2);
+    // });
+    //
   }
-  private loadRoutes(){
+  private loadRoutes(callback){
      this.routes = this.routeService.readRoutes();
-      console.log("ROUTES:",this.routes);
-      // let r = { "origin" : route["origin"], "destination" : route["destination"] };
-      // this.routes.push(route);
-      // this.addToLocal(route);
-      // console.log("ruta:",route);
-      // var p1 = {'lat': route["origin"].latitude,'lng': route["origin"].longitude  }
-      // var p2 = {'lat': route["destination"].latitude,'lng': route["destination"].longitude}
-      // console.log(this.calculateDistance(p1,p2) + " meters");
 
+      callback();
   }
 
   private calculateDistance(coordDict1,coordDict2)
@@ -188,60 +190,6 @@ export class FindRouteComponent implements OnInit {
     this.vc.updateDirections();
   }
 
-  addRoute()
-  {
-    var p1 = {'lat': this.start.latitude,'lng': this.start.longitude}
-    var p2 = {'lat': this.end.latitude,'lng': this.end.longitude}
-    console.log(this.calculateDistance(p1,p2) + " meters");
-
-
-    var route = { "origin" : this.start, "destination" : this.end };
-    this.routes.push(route);
-    this.addToLocal(route);
-    console.log("ruta:",route);
-    //this.saveRoute();
-  }
-
-  private saveRoute(){
-    console.log("ROUTE:",this.originToSave,this.destinationToSave);
-    this.routeService.saveRoute(this.originToSave,this.destinationToSave);
-  }
-
-  private setupPlaceChangedListener(mode: any ) {
-
-        // if (mode === 'ORG') {
-        //   this.routeService.readRoutes().then(r=>{
-        //     var place = r.origin;
-        //     console.log(place);
-        //     this.vc.origin = { longitude: place.longitude, latitude: place.latitude };
-        //     this.vc.originPlaceId = place.place_id;
-        //     this.start = place;
-        //
-        //   });
-        //
-        // } else {
-        //   this.routeService.readRoutes().then(r=>{
-        //     let place = r.destination
-        //     console.log(place);
-        //     this.vc.destination = { longitude: place.longitude, latitude: place.latitude }; // its a example aleatory position
-        //     this.vc.destinationPlaceId = place.place_id;
-        //     this.end = place;
-        //   });
-        //
-        // }
-
-        if(this.vc.directionsDisplay === undefined){ this.mapsAPILoader.load().then(() => {
-          this.vc.directionsDisplay = new google.maps.DirectionsRenderer;
-        });
-      }
-
-      //Update the directions
-      this.vc.updateDirections();
-      this.zoom = 12;
-
-
-  }
-
   getDistanceAndDuration(){
     this.estimatedTime = this.vc.estimatedTime;
     this.estimatedDistance = this.vc.estimatedDistance;
@@ -267,9 +215,6 @@ export class FindRouteComponent implements OnInit {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
-        console.log("curr position:",position);
-        this.currentLat = position.coords.latitude;
-        this.currentLng = position.coords.latitude;
         this.zoom = 12;
       });
     }
