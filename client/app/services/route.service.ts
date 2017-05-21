@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import * as firebase from 'firebase';
 import {post} from "selenium-webdriver/http";
+import {UserService} from "./user.service";
 
 @Injectable()
 export class RouteService {
@@ -20,18 +21,24 @@ export class RouteService {
     //         uid: child.val().uid
     //     }
     // });
+    constructor(private userService: UserService){
+
+    }
 readRoutes(){
     let items = [];
     let ref =  firebase.database()
         .ref('routes')
         .on("value", (snapshot) => {
-
             snapshot.forEach((child) => {
-                items.push({
-                    destination: child.val().destination,
-                            origin: child.val().origin,
-                            uid: child.val().uid
-                });
+                let user = this.userService.getUser(child.val().uid).then(user=>{
+                    //console.log("RUSER:",user);
+                    items.push({
+                        user:user,
+                        destination: child.val().destination,
+                        origin: child.val().origin,
+                        uid: child.val().uid
+                    });
+                })
                 return false;
             });
         });

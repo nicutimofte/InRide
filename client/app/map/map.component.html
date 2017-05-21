@@ -1,35 +1,43 @@
-<div class="container" onload="locate()">
-  <!--<h1>Angular 2 Google Map Direction Display</h1>-->
-  <div class="form-group">
-    <input placeholder="Enter source location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #pickupInput [formControl]="destinationInput">
-    <input placeholder="Enter destination" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #pickupOutput [formControl]="destinationOutput" >
-  </div>
-  <button class="btn btn-default" (click)="addRoute()">Add Route</button>
-  <sebm-google-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" [styles]="mapCustomStyles">
-    <!--<sebm-google-map-marker [latitude]="latitude" [longitude]="longitude" [iconUrl]="iconurl">-->
-    <!--<sebm-google-map-info-window>-->
-    <!--<strong>InfoWindow content</strong>-->
-    <!--</sebm-google-map-info-window>-->
-    <!--</sebm-google-map-marker>-->
-    <sebm-google-map-directions [origin]="origin" [destination]="destination"></sebm-google-map-directions>
 
-    <sebm-google-map-marker [latitude]="neighbours[0].latitude" [longitude]="neighbours[0].longitude"></sebm-google-map-marker>
-    <sebm-google-map-marker [latitude]="neighbours[1].latitude" [longitude]="neighbours[1].longitude"></sebm-google-map-marker>
-    <sebm-google-map-marker [latitude]="neighbours[2].latitude" [longitude]="neighbours[2].longitude" ></sebm-google-map-marker>
 
-    <!--<sebm-google-map-directions [origin]="originn" [destination]="destinationn"></sebm-google-map-directions>-->
-
-  </sebm-google-map>
-
-    <div class="list-group" *ngFor="let x of routes; let i = index">
-      <button
-              class="list-group-item list-group-item-action"
-              (click)="tempClicked(i)">
-        From {{ x.origin.formatted_address }} to {{ x.destination.formatted_address }}
-      </button>
+  <div class="container" onload="locate()">
+    <!--<h1>Angular 2 Google Map Direction Display</h1>-->
+    <div class="form-group">
+      <input placeholder="Enter source location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #pickupInput [formControl]="destinationInput">
+      <input placeholder="Enter destination" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #pickupOutput [formControl]="destinationOutput" >
     </div>
+    <button class="btn btn-default" (click)="addRoute()">Add Route</button>
+    <sebm-google-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" [styles]="mapCustomStyles">
+      <!--<sebm-google-map-marker [latitude]="latitude" [longitude]="longitude" [iconUrl]="iconurl">-->
+      <!--<sebm-google-map-info-window>-->
+      <!--<strong>InfoWindow content</strong>-->
+      <!--</sebm-google-map-info-window>-->
+      <!--</sebm-google-map-marker>-->
+      <sebm-google-map-directions [origin]="origin" [destination]="destination"></sebm-google-map-directions>
 
-</div>
+      <sebm-google-map-marker [latitude]="neighbours[0].latitude" [longitude]="neighbours[0].longitude"></sebm-google-map-marker>
+      <sebm-google-map-marker [latitude]="neighbours[1].latitude" [longitude]="neighbours[1].longitude"></sebm-google-map-marker>
+      <sebm-google-map-marker [latitude]="neighbours[2].latitude" [longitude]="neighbours[2].longitude" ></sebm-google-map-marker>
+
+      <!--<sebm-google-map-directions [origin]="originn" [destination]="destinationn"></sebm-google-map-directions>-->
+
+    </sebm-google-map>
+
+    <!--<div class="list-group" *ngFor="let x of routes; let i = index">-->
+      <!--<button-->
+              <!--class="list-group-item list-group-item-action"-->
+              <!--(click)="tempClicked(i)">-->
+        <!--From {{ x.origin.formatted_address }} to {{ x.destination.formatted_address }}-->
+      <!--</button>-->
+    <!--</div>-->
+
+  </div>
+
+  <footer class="ridein-footer mdl-mega-footer">
+    <div class="mdl-mega-footer--middle-section">
+      <p class="mdl-typography--font-light">© 2017 RideIn</p>
+    </div>
+  </footer>
 
 
 <!--<sebm-google-map [latitude]="lat" [longitude]="lng">-->

@@ -10,15 +10,27 @@ export class UserService {
 
     readUser(){
         var userId = firebase.auth().currentUser.uid;
-        return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-            var username = snapshot.val().userName;
-            console.log(username)
+         firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+            var user = snapshot.val();
+            console.log("CURRENT USER:",user);
+            return {
+                    uid: user.uid,
+                    userName: user.userName,
+                    userPicture: user.userPicture,
+                    email: user.email
+            }
         });
     }
     getUser(uid:number){
         return firebase.database().ref('/users/' + uid).once('value').then(function(snapshot) {
-            var username = snapshot.val().userName;
-            console.log(username)
+            var user = snapshot.val();
+            console.log("get USER: ",user);
+            return {
+                    userName: user.userName,
+                    userPicture: user.userPicture,
+                    email: user.email
+            }
+
         });
     }
 

@@ -7,6 +7,7 @@ import {neighbours} from './mockData/neighbours.mock';
 import {AF} from "../providers/af";
 import {RouteService} from "../services/route.service";
 import {DirectionsMapDirective} from "../directions-map.directive";
+import {UserService} from "../services/user.service";
 
 declare const google:any;
 declare const jQuery:any;
@@ -21,8 +22,11 @@ declare const jQuery:any;
 export class FindRouteComponent implements OnInit {
   private destinationToSave:any;
   private originToSave:any;
+  private currentLat:number;
+  private currentLng: number;
   public latitude: number;
   public longitude: number;
+
   public destinationInput: FormControl;
   public destinationOutput: FormControl;
   public zoom: number;
@@ -59,7 +63,8 @@ export class FindRouteComponent implements OnInit {
     private gmapsApi: GoogleMapsAPIWrapper,
     private _elementRef : ElementRef,
     public afService: AF,
-    public routeService: RouteService
+    public routeService: RouteService,
+    private userService: UserService
     ) {
   }
 
@@ -102,7 +107,7 @@ export class FindRouteComponent implements OnInit {
   }
   private loadRoutes(){
      this.routes = this.routeService.readRoutes();
-     console.log("ROUTE:",this.routes);
+      console.log("ROUTES:",this.routes);
       // let r = { "origin" : route["origin"], "destination" : route["destination"] };
       // this.routes.push(route);
       // this.addToLocal(route);
@@ -245,6 +250,7 @@ export class FindRouteComponent implements OnInit {
   scrollToBottom(): void {
     jQuery('html, body').animate({ scrollTop: jQuery(document).height() }, 3000);
   }
+
   private setPickUpLocation( place:any ) {
     //verify result
     if (place.geometry === undefined || place.geometry === null) {
@@ -261,6 +267,9 @@ export class FindRouteComponent implements OnInit {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
+        console.log("curr position:",position);
+        this.currentLat = position.coords.latitude;
+        this.currentLng = position.coords.latitude;
         this.zoom = 12;
       });
     }

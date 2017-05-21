@@ -1,17 +1,62 @@
-<div class="container" onload="locate()">
-  <sebm-google-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" [styles]="mapCustomStyles">
-    <sebm-google-map-directions [origin]="origin" [destination]="destination"></sebm-google-map-directions>
-    <div class="list-group" *ngFor="let x of routes; let i = index">
-      <sebm-google-map-marker [latitude]="x.origin.latitude" [longitude]="x.origin.longitude"></sebm-google-map-marker>
-    </div>
-  </sebm-google-map>
 
-    <div class="list-group" *ngFor="let x of routes; let i = index">
-      <button
-              class="list-group-item list-group-item-action"
-              (click)="tempClicked(i)">
-        From {{ x.origin.formatted_address }} to {{ x.destination.formatted_address }}
-      </button>
-    </div>
 
-</div>
+  <div class="container find-route-section" onload="locate()">
+    <sebm-google-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" [styles]="mapCustomStyles">
+      <sebm-google-map-directions [origin]="origin" [destination]="destination"></sebm-google-map-directions>
+
+      <sebm-google-map-marker [latitude]="currentLat" [longitude]="currentLng"></sebm-google-map-marker>
+
+      <div class="list-group" *ngFor="let x of routes; let i = index">
+        <sebm-google-map-marker [latitude]="x.origin.latitude" [longitude]="x.origin.longitude"></sebm-google-map-marker>
+      </div>
+    </sebm-google-map>
+
+
+
+    <div *ngFor="let x of routes; let i = index" class="list-group demo-list-three mdl-list">
+      <div class="mdl-list__item mdl-list__item--three-line">
+            <span class="mdl-list__item-primary-content">
+                  <!--<img [src]="x.user.userPicture" alt="">-->
+                  <i class="material-icons  mdl-list__item-avatar">person</i>
+                  <span>{{x.user.userName}}</span>
+                  <span class="mdl-list__item-text-body">
+                    {{ x.origin.formatted_address }} -> {{ x.destination.formatted_address }}
+                  </span>
+            </span>
+        <span class="mdl-list__item-secondary-content">
+                    <button
+                            (click)="tempClicked(i)"
+                            class="list-group-item list-group-item-action mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                         Show
+                    </button>
+               </span>
+      </div>
+    </div>
+  </div>
+
+    <!--<div class="list-group" *ngFor="let x of routes; let i = index">-->
+      <!--<span class="mdl-list__item-primary-content">-->
+          <!--<i class="material-icons  mdl-list__item-avatar">person</i>-->
+          <!--<span>Bob Odenkirk</span>-->
+          <!--<span class="mdl-list__item-text-body">-->
+            <!--{{ x.origin.formatted_address }} -> {{ x.destination.formatted_address }}-->
+          <!--</span>-->
+      <!--</span>-->
+      <!--<span class="mdl-list__item-secondary-content">-->
+        <!--<button-->
+                <!--class="list-group-item list-group-item-action"-->
+                <!--(click)="tempClicked(i)">-->
+          <!--Show-->
+      <!--</button>-->
+      <!--</span>-->
+
+    <!--</div>-->
+
+
+
+
+  <footer class="ridein-footer mdl-mega-footer">
+    <div class="mdl-mega-footer--middle-section">
+      <p class="mdl-typography--font-light">© 2017 RideIn</p>
+    </div>
+  </footer>

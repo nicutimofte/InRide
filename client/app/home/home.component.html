@@ -1,1 +1,33 @@
 <!--<app-map></app-map>-->
+<a name="top"></a>
+<div class="ridein-be-together-section mdl-typography--text-center">
+    <div class="logo-font ridein-slogan">Become A Better You.</div>
+    <div class="logo-font ridein-sub-slogan">The noblest pleasure is the joy of understanding.</div>
+</div>
+<div class="ridein-customized-section">
+    <div class="ridein-customized-section-text">
+        <div class="mdl-typography--font-light mdl-typography--display-1-color-contrast">Become A Part Of The ridein Community</div>
+        <p class="mdl-typography--font-light">
+            Join The RideIn Community To Get Access To Occasional Tips, Insights And Product Updates To Help You On Your Personal Journey.
+            <br>
+            <a routerLink="/route/find"
+               routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact:true}"
+               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect ridein-link">
+                Find a Ride </a>
+            <br>
+            <a routerLink="/route/post"
+               routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact:true}"
+               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect ridein-link">
+                Post a Ride </a>
+        </p>
+    </div>
+</div>
+
+<footer class="ridein-footer mdl-mega-footer">
+    <div class="mdl-mega-footer--middle-section">
+        <p class="mdl-typography--font-light">© 2017 RideIn</p>
+    </div>
+</footer>
+<router-outlet></router-outlet>
