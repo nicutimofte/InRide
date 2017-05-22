@@ -49,7 +49,7 @@ export class UserService {
             uid: uid,
             userPicture: userPicture,
             email: email,
-            phone: '0755203348'
+            phone: '0755203356'
         };
         //
         // // Get a key for a new User.
