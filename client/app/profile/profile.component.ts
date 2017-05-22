@@ -15,9 +15,12 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
   	this.afService.af.auth.onAuthStateChanged((user)=>{
       console.log("as",user);
-      this.current = user
+      //this.current = user
     });
-  	this.current = this.userService.readUser();
+  	this.userService.readUser().then(user=>{
+  	    console.log("USER:",user);
+  	    this.current=user;
+    });
   	console.log(this.userService.readUser())
   }
 

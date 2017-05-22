@@ -8,14 +8,17 @@ import * as firebase from 'firebase';
 @Injectable()
 export class UserService {
 
-    readUser(){
+    readUser():any{
         var userId = firebase.auth().currentUser.uid;
-         firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+        console.log("userid:",userId);
+        return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
             var user = snapshot.val();
+            console.log("users:",user);
             return {
                     uid: user.uid,
                     userName: user.userName,
                     userPicture: user.userPicture,
+                    phone: user.phone,
                     email: user.email
             }
         });
@@ -27,7 +30,8 @@ export class UserService {
             return {
                     userName: user.userName,
                     userPicture: user.userPicture,
-                    email: user.email
+                    email: user.email,
+                    phone:user.phone
             }
 
         });
@@ -44,7 +48,8 @@ export class UserService {
             userName: userName,
             uid: uid,
             userPicture: userPicture,
-            email: email
+            email: email,
+            phone: '0755203348'
         };
         //
         // // Get a key for a new User.
