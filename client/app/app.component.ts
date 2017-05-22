@@ -10,6 +10,8 @@ import {UserService} from "./services/user.service";
 })
 export class AppComponent {
 
+  private LOGO = require("./images/logo.png");
+
   public isLoggedIn: boolean;
   constructor(public afService: AF, private router: Router,private userService: UserService) {
     // This asynchronously checks if our user is logged in and will automatically

@@ -185,7 +185,7 @@ addRoute()
 {
   var p1 = {'lat': this.start.geometry.location.lat(),'lng': this.start.geometry.location.lng()}
   var p2 = {'lat': this.end.geometry.location.lat(),'lng': this.end.geometry.location.lng()}
-  alert(this.calculateDistance(p1,p2) + " meters")
+  // alert(this.calculateDistance(p1,p2) + " meters")
 
 
   var route = { "origin" : this.start, "destination" : this.end };

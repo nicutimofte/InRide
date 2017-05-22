@@ -18,6 +18,7 @@ import {AngularFireAuthModule} from "angularfire2/auth/auth.module";
 import {RouteService} from "./services/route.service";
 import { FindRideComponent } from './find-ride/find-ride.component';
 import {FindRouteComponent} from "./find-route/find-route.component";
+import { ProfileComponent } from './profile/profile.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBszStTPolsR_W_fxPBKhph9Jds_oP9FKg",
@@ -37,7 +38,8 @@ const firebaseConfig = {
     DirectionsMapDirective,
     LoginPageComponent,
     FindRideComponent,
-    FindRouteComponent
+    FindRouteComponent,
+    ProfileComponent
   ],
   imports: [
     AppRoutingModule,
