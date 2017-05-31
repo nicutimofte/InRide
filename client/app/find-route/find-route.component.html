@@ -25,11 +25,22 @@
             </span>
         <span class="mdl-list__item-secondary-content">
             <button
-                    (click)="tempClicked(i)"
-                    class="list-group-item list-group-item-action mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+              (click)="tempClicked(i)"
+              class="list-group-item list-group-item-action mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
                  Show
             </button>
-       </span>
+              <button
+              (click)="attendRoute(i)"
+              class="list-group-item list-group-item-action mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                 Attend
+            </button>
+        </span>
+        <!-- <span class="mdl-list__item-secondary-content">
+            <button
+              class="list-group-item list-group-item-action mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                 Attend
+            </button>
+       </span> -->
       </div>
     </div>
   </div>

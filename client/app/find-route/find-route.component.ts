@@ -74,12 +74,12 @@ export class FindRouteComponent implements OnInit {
     });
 
     // HOW TO:
-    // 
+    //
     // AT FIRST RUN, UNCOMMENT LOCALSTORAGE.CLEAR() AND ADD SOME ROUTES
     // UNCOMMENT IT, SAVE THE FILE, AND LOCALSTORAGE SHOUL WORK
     // AFTERWARDS KEEP IT UNCOMMENTED
     // ALL LOCAL STORAGE IS WIPED AT FIRST
-    
+
     localStorage.clear();
     this.loadFromLocal();
     this.setLocalIdxOnLoad();
@@ -182,7 +182,7 @@ export class FindRouteComponent implements OnInit {
     this.vc.destinationPlaceId = this.routes[i].destination.place_id;
 
     if(this.vc.directionsDisplay === undefined)
-    { 
+    {
       this.mapsAPILoader.load().then(() => {
         this.vc.directionsDisplay = new google.maps.DirectionsRenderer;
       });
@@ -218,6 +218,18 @@ export class FindRouteComponent implements OnInit {
         this.zoom = 12;
       });
     }
+  }
+
+  private attendRoute(id){
+    var userId
+    console.log(this.routes[id])
+    this.userService.readUser().then(user=>{
+        userId = user.uid
+        alert(userId)
+    });
+
+
+
   }
 
   private getMapCusotmStyles() {
