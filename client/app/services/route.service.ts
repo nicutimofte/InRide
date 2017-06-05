@@ -24,6 +24,36 @@ export class RouteService {
     constructor(private userService: UserService){
 
     }
+getRouteOwner(routeId:any){
+	let user
+	let ref = firebase.database()
+		.ref('routes')
+		.on("value",(snapshot) => {
+			snapshot.forEach((child) => {
+				if(child.key == routeId){
+					user = child.val().uid
+				}
+				return false;
+			});
+		});
+	return user;
+}
+
+getRoute(routeId:any){
+	let route
+	let ref = firebase.database()
+		.ref('routes')
+		.on("value",(snapshot) => {
+			snapshot.forEach((child) => {
+				if(child.key == routeId){
+					route = child.val()
+				}
+				return false;
+			});
+		});
+	return route;
+}
+
 readRoutes(){
     let items = [];
     let ref =  firebase.database()
@@ -33,10 +63,12 @@ readRoutes(){
                 let user = this.userService.getUser(child.val().uid).then(user=>{
                     //console.log("RUSER:",user);
                     items.push({
+
                         user:user,
                         destination: child.val().destination,
                         origin: child.val().origin,
-                        uid: child.val().uid
+                        uid: child.val().uid,
+                        rid: child.key
                     });
                 })
                 return false;
@@ -64,5 +96,9 @@ readRoutes(){
         // updates['/routes/' + uid] = postData;
         //
         // return firebase.database().ref().update(updates);
+    }
+    updateRoute(){
+        let routes = firebase.database().ref().child('routes');
+
     }
 }

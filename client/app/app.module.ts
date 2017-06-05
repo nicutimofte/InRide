@@ -19,6 +19,7 @@ import {RouteService} from "./services/route.service";
 import { FindRideComponent } from './find-ride/find-ride.component';
 import {FindRouteComponent} from "./find-route/find-route.component";
 import { ProfileComponent } from './profile/profile.component';
+import {UserRoutesService} from "./services/userRoutes.service"
 
 const firebaseConfig = {
   apiKey: "AIzaSyBszStTPolsR_W_fxPBKhph9Jds_oP9FKg",
@@ -39,7 +40,8 @@ const firebaseConfig = {
     LoginPageComponent,
     FindRideComponent,
     FindRouteComponent,
-    ProfileComponent
+    ProfileComponent,
+
   ],
   imports: [
     AppRoutingModule,
@@ -58,7 +60,9 @@ const firebaseConfig = {
     DataService,
     AF,
     UserService,
-    RouteService
+    RouteService,
+    UserRoutesService
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
