@@ -1,11 +1,13 @@
 import {Component, OnInit, ViewChild, ElementRef, NgZone} from '@angular/core';
 import {GoogleMapsAPIWrapper, MapsAPILoader} from "angular2-google-maps/core";
 import {FormControl} from "@angular/forms";
+import {Router} from '@angular/router'
 
 import {} from '@types/googlemaps';
 import {neighbours} from './mockData/neighbours.mock';
 import {AF} from "../providers/af";
 import {RouteService} from "../services/route.service";
+import {UserRoutesService} from "../services/userRoutes.service"
 import {DirectionsMapDirective} from "../directions-map.directive";
 import {UserService} from "../services/user.service";
 
@@ -64,7 +66,9 @@ export class FindRouteComponent implements OnInit {
     private _elementRef : ElementRef,
     public afService: AF,
     public routeService: RouteService,
-    private userService: UserService
+    private userService: UserService,
+    private usersRouteSerice: UserRoutesService,
+    private router:Router
     ) {
   }
 
@@ -74,12 +78,12 @@ export class FindRouteComponent implements OnInit {
     });
 
     // HOW TO:
-    // 
+    //
     // AT FIRST RUN, UNCOMMENT LOCALSTORAGE.CLEAR() AND ADD SOME ROUTES
     // UNCOMMENT IT, SAVE THE FILE, AND LOCALSTORAGE SHOUL WORK
     // AFTERWARDS KEEP IT UNCOMMENTED
     // ALL LOCAL STORAGE IS WIPED AT FIRST
-    
+
     localStorage.clear();
     this.loadFromLocal();
     this.setLocalIdxOnLoad();
@@ -182,7 +186,7 @@ export class FindRouteComponent implements OnInit {
     this.vc.destinationPlaceId = this.routes[i].destination.place_id;
 
     if(this.vc.directionsDisplay === undefined)
-    { 
+    {
       this.mapsAPILoader.load().then(() => {
         this.vc.directionsDisplay = new google.maps.DirectionsRenderer;
       });
@@ -218,6 +222,20 @@ export class FindRouteComponent implements OnInit {
         this.zoom = 12;
       });
     }
+  }
+
+  private attendRoute(id){
+    var userId
+    console.log(this.routes[id].rid)
+    this.router.navigateByUrl['/profile']
+    this.userService.readUser().then(user=>{
+        userId = user.uid
+        this.usersRouteSerice.saveUserRoute(this.routes[id].rid,userId)
+        
+    });
+
+
+
   }
 
   private getMapCusotmStyles() {
