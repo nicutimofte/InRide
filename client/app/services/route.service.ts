@@ -33,10 +33,12 @@ readRoutes(){
                 let user = this.userService.getUser(child.val().uid).then(user=>{
                     //console.log("RUSER:",user);
                     items.push({
+
                         user:user,
                         destination: child.val().destination,
                         origin: child.val().origin,
-                        uid: child.val().uid
+                        uid: child.val().uid,
+                        rid: child.key
                     });
                 })
                 return false;

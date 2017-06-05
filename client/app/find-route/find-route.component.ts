@@ -1,11 +1,13 @@
 import {Component, OnInit, ViewChild, ElementRef, NgZone} from '@angular/core';
 import {GoogleMapsAPIWrapper, MapsAPILoader} from "angular2-google-maps/core";
 import {FormControl} from "@angular/forms";
+import {Router} from '@angular/router'
 
 import {} from '@types/googlemaps';
 import {neighbours} from './mockData/neighbours.mock';
 import {AF} from "../providers/af";
 import {RouteService} from "../services/route.service";
+import {UserRoutesService} from "../services/userRoutes.service"
 import {DirectionsMapDirective} from "../directions-map.directive";
 import {UserService} from "../services/user.service";
 
@@ -64,7 +66,9 @@ export class FindRouteComponent implements OnInit {
     private _elementRef : ElementRef,
     public afService: AF,
     public routeService: RouteService,
-    private userService: UserService
+    private userService: UserService,
+    private usersRouteSerice: UserRoutesService,
+    private router:Router
     ) {
   }
 
@@ -222,10 +226,12 @@ export class FindRouteComponent implements OnInit {
 
   private attendRoute(id){
     var userId
-    console.log(this.routes[id])
+    console.log(this.routes[id].rid)
+    this.router.navigateByUrl['/profile']
     this.userService.readUser().then(user=>{
         userId = user.uid
-        alert(userId)
+        //this.usersRouteSerice.saveRoute(this.routes[id].rid,userId)
+        
     });
 
 
