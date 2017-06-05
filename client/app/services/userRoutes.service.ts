@@ -26,30 +26,35 @@ export class UserRoutesService {
                 private routeService: RouteService){
 
     }
-readUserRoutes(){
-    let items = [];
-    let ref =  firebase.database()
-        .ref('userRoutes')
-        .on("value", (snapshot) => {
-            snapshot.forEach((child) => {
-                let owner = this.userService.getUser(child.val().ownerId).then(owner=>{
-                    let user = this.userService.getUser(child.val().userId).then(user=>{
-                        let route = this.routeService.getRoute(child.val().routeId).then(route=>{
-                            items.push({
-                        owner:owner,
-                        usert:user,
-                        route:route
-                        }) 
-                    }); 
+    readUserRoutes(){
+        let items = [];
+        let ref =  firebase.database()
+            .ref('userRoutes')
+            .on("value", (snapshot) => {
+                snapshot.forEach(child => {
+                    items.push({
+                        owner: child.val().owner,
+                        route: child.val().routeId,
+                        user: child.val().userId
                     })
-         
-                })
-                return false;
+                    return false;
+                });
             });
-        });
-    return items;
-}
-
+        console.log("readUserRoutes items:",items)
+        return items;
+    }
+    getUsersRoutes(userId:any){
+        let items = []
+        let urs = this.readUserRoutes()
+        urs.forEach(ur=>{
+            if(ur.user == userId){
+                items.push(ur)
+            }
+            return false
+        })
+        console.log("getUserRoutes items:",items)
+        return items
+    }
     saveUserRoute(routeId:any,userId:any) {
         // A post entry.
         let userRoutes = firebase.database().ref().child('userRoutes');

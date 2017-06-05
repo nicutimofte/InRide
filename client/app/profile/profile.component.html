@@ -3,7 +3,27 @@
 	<h1>{{current?.userName}}</h1>
 	<h2>{{current?.phone}}</h2>
 	<h3>{{current?.email}}</h3>
+	 <div *ngFor="let x of attendingRoutes; let i = index" class="list-group demo-list-three mdl-list">
+      <div class="mdl-list__item mdl-list__item--three-line">
+            <span class="mdl-list__item-primary-content">
+                  <!--<img [src]="x.user.userPicture" alt="">-->
+                  <i class="material-icons  mdl-list__item-avatar">person</i>
+                  <span>{{x.owner.userName}} - {{x.owner.phone}}</span>
+                  <span class="mdl-list__item-text-body">
+                    {{ x.route }} -> {{ x.route }}
+                  </span>
+            </span>
+        <span class="mdl-list__item-secondary-content">
+            <button
+              class="list-group-item list-group-item-action mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                 Leave
+            </button>
+        </span>
+      </div>
+    </div>
 </div>
+
+
 <footer class="ridein-footer mdl-mega-footer">
 	<div class="mdl-mega-footer--middle-section">
 		<p class="mdl-typography--font-light">© 2017 InRide</p>
