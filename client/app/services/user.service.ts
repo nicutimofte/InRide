@@ -10,7 +10,7 @@ export class UserService {
 
     readUser():any{
         var userId = firebase.auth().currentUser.uid;
-        console.log("userid:",userId);
+        //console.log("userid:",userId);
         return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
             var user = snapshot.val();
             console.log("users:",user);
