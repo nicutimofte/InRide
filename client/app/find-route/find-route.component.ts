@@ -230,7 +230,7 @@ export class FindRouteComponent implements OnInit {
     this.router.navigateByUrl['/profile']
     this.userService.readUser().then(user=>{
         userId = user.uid
-        //this.usersRouteSerice.saveRoute(this.routes[id].rid,userId)
+        this.usersRouteSerice.saveUserRoute(this.routes[id].rid,userId)
         
     });
 

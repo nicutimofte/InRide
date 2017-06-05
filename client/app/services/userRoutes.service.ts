@@ -9,6 +9,7 @@ import 'rxjs/add/operator/map';
 import * as firebase from 'firebase';
 import {post} from "selenium-webdriver/http";
 import {UserService} from "./user.service";
+import {RouteService} from "./route.service"
 
 @Injectable()
 export class UserRoutesService {
@@ -21,23 +22,27 @@ export class UserRoutesService {
     //         uid: child.val().uid
     //     }
     // });
-    constructor(private userService: UserService){
+    constructor(private userService: UserService,
+                private routeService: RouteService){
 
     }
-readRoutes(){
+readUserRoutes(){
     let items = [];
     let ref =  firebase.database()
-        .ref('routes')
+        .ref('userRoutes')
         .on("value", (snapshot) => {
             snapshot.forEach((child) => {
-                let user = this.userService.getUser(child.val().uid).then(user=>{
-                    //console.log("RUSER:",user);
-                    items.push({
-                        user:user,
-                        destination: child.val().destination,
-                        origin: child.val().origin,
-                        uid: child.val().uid
-                    });
+                let owner = this.userService.getUser(child.val().ownerId).then(owner=>{
+                    let user = this.userService.getUser(child.val().userId).then(user=>{
+                        let route = this.routeService.getRoute(child.val().routeId).then(route=>{
+                            items.push({
+                        owner:owner,
+                        usert:user,
+                        route:route
+                        }) 
+                    }); 
+                    })
+         
                 })
                 return false;
             });
@@ -45,24 +50,17 @@ readRoutes(){
     return items;
 }
 
-    saveRoute(routeId:any,userId:any) {
+    saveUserRoute(routeId:any,userId:any) {
         // A post entry.
         let userRoutes = firebase.database().ref().child('userRoutes');
         /*let uid = firebase.auth().currentUser.uid;*/
-
+        let ownerId = this.routeService.getRouteOwner(routeId)
         return userRoutes.push().set({
+            ownerId: ownerId,
             userId: userId,
             routeId: routeId
         });
-        //
-        // // Get a key for a new User.
-        // var newUserKey = firebase.database().ref().child('users').push().key;
 
-        // Write the new post's data simultaneously in the posts list and the user's post list.
-        // var updates = {};
-        // updates['/routes/' + uid] = postData;
-        //
-        // return firebase.database().ref().update(updates);
     }
 
 }

@@ -24,6 +24,36 @@ export class RouteService {
     constructor(private userService: UserService){
 
     }
+getRouteOwner(routeId:any){
+	let user
+	let ref = firebase.database()
+		.ref('routes')
+		.on("value",(snapshot) => {
+			snapshot.forEach((child) => {
+				if(child.key == routeId){
+					user = child.val().uid
+				}
+				return false;
+			});
+		});
+	return user;
+}
+
+getRoute(routeId:any){
+	let route
+	let ref = firebase.database()
+		.ref('routes')
+		.on("value",(snapshot) => {
+			snapshot.forEach((child) => {
+				if(child.key == routeId){
+					route = child.val()
+				}
+				return false;
+			});
+		});
+	return route;
+}
+
 readRoutes(){
     let items = [];
     let ref =  firebase.database()
