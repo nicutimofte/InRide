@@ -65,6 +65,7 @@ export class UserRoutesService {
             .on("value", (snapshot) => {
                 snapshot.forEach(child => {
                     items.push({
+                        key: child.key,
                         owner: child.val().owner,
                         route: child.val().routeId,
                         user: child.val().userId
@@ -109,19 +110,11 @@ export class UserRoutesService {
                     return false;
                 });
             });
-        // return user;
+    }
 
-
-
-
-
-
-        // return userRoutes.push().set({
-        //     ownerId: ownerId,
-        //     userId: userId,
-        //     routeId: routeId
-        // });
-
+    deleteUserRoute(key:any)
+    {
+        firebase.database().ref('userRoutes/'+key).remove()
     }
 
 }

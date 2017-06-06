@@ -225,7 +225,6 @@ export class FindRouteComponent implements OnInit {
   }
 
   private attendRoute(id){
-    alert("gg")
     var userId
     console.log(this.routes[id].rid)
     this.router.navigate(["profile"])
