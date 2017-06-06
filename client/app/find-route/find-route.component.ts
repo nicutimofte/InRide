@@ -225,13 +225,13 @@ export class FindRouteComponent implements OnInit {
   }
 
   private attendRoute(id){
+    alert("gg")
     var userId
     console.log(this.routes[id].rid)
-    this.router.navigateByUrl['/profile']
+    this.router.navigate(["profile"])
     this.userService.readUser().then(user=>{
         userId = user.uid
         this.usersRouteSerice.saveUserRoute(this.routes[id].rid,userId)
-        
     });
 
 

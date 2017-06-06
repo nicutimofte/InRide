@@ -54,6 +54,14 @@ getRoute(routeId:any){
 	return route;
 }
 
+getRouteWithKey(key:any){
+    let temp:any;
+    firebase.database().ref('/routes').child(key).on('value',(snap) => {temp = snap.val()} )
+    return new Promise((resolve, reject) => {
+        resolve(temp);
+      }); 
+    }
+
 readRoutes(){
     let items = [];
     let ref =  firebase.database()

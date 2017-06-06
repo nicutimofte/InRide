@@ -6,11 +6,11 @@
 	 <div *ngFor="let x of attendingRoutes; let i = index" class="list-group demo-list-three mdl-list">
       <div class="mdl-list__item mdl-list__item--three-line">
             <span class="mdl-list__item-primary-content">
-                  <!--<img [src]="x.user.userPicture" alt="">-->
+                  <!-- <img [src]="x.user.userPicture" alt=""> -->
                   <i class="material-icons  mdl-list__item-avatar">person</i>
-                  <span>{{x.owner.userName}} - {{x.owner.phone}}</span>
+                  <span>{{x?.oUserName}} - {{x?.oPhone}}</span>
                   <span class="mdl-list__item-text-body">
-                    {{ x.route }} -> {{ x.route }}
+                  {{x?.attending.origin.formatted_address}} -> {{x?.attending.destination.formatted_address}}
                   </span>
             </span>
         <span class="mdl-list__item-secondary-content">
