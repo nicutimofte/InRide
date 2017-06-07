@@ -5,7 +5,6 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
-import { DataService } from './services/data.service';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { MapComponent } from './map/map.component';
 import { DirectionsMapDirective } from './directions-map.directive';
@@ -22,12 +21,12 @@ import { ProfileComponent } from './profile/profile.component';
 import {UserRoutesService} from "./services/userRoutes.service"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBszStTPolsR_W_fxPBKhph9Jds_oP9FKg",
-  authDomain: "ridein-1492801980487.firebaseapp.com",
-  databaseURL: "https://ridein-1492801980487.firebaseio.com",
-  projectId: "ridein-1492801980487",
-  storageBucket: "ridein-1492801980487.appspot.com",
-  messagingSenderId: "470057804554"
+  apiKey: your-apiKey,
+  authDomain: your-authDomain,
+  databaseURL: your-databaseUrl,
+  projectId: your-projectId,
+  storageBucket: your-storageBucket,
+  messagingSenderId: your-messagingSenderId
 };
 
 @NgModule({
@@ -47,17 +46,15 @@ const firebaseConfig = {
     AppRoutingModule,
     SharedModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyA5E4pMg2NLB5dtfGMcsJHpLwYLU5hnfOk',
+      apiKey: your-api-key,
       libraries: ["places"]
     }),
      [
     AngularFireModule.initializeApp(firebaseConfig),
-    // AngularFireDatabaseModule,
     AngularFireAuthModule
 ],
   ],
   providers: [
-    DataService,
     AF,
     UserService,
     RouteService,
